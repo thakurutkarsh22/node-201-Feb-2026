@@ -1,4 +1,6 @@
-function HomeResponse (req, res) {
+
+// Handler Function
+function HomeResponse (req, res, next) {
     // send is only and only with expressjs and NOT node js 
         // send behind the scenes is doing JSON.stringy();
         // send behind the scenes is doing res.write() and res.end()
@@ -7,4 +9,13 @@ function HomeResponse (req, res) {
 }
 
 
-module.exports = {HomeResponse}
+function AboutResponse (req, res) {
+    res.send("Welcome to the about page  this page is a developer page express EXPRESS");
+}
+
+function ContactResponse (req, res) {
+    res.send("Welcome to the contact page  this page is a developer page express");
+}
+
+
+module.exports = {HomeResponse, AboutResponse, ContactResponse}

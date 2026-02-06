@@ -1,27 +1,14 @@
 const express = require("express");
-const req = require("express/lib/request");
-const { HomeResponse } = require("./Controller/HomeController");
-const userData = require("./userData");
+require('dotenv').config()
+const UserActivityRouter = require("./Routes/UserActivityRoute");
+const HomeRouter = require("./Routes/HomeRoute");
 const server = express();
-const PORT = 8089;
+const PORT = process.env.PORT;
 
-// /, /home, /contact, /about -> api endpoints -> interface, 
+server.use("/", HomeRouter);
 
-server.get("/", HomeResponse);
-
-
-server.get("/home", HomeResponse);
-
-
-server.get("/about", (req, res) => {
-    res.send("Welcome to the about page  this page is a developer page express EXPRESS");
-});
-
-server.get("/contact", (req, res) => {
-    res.send("Welcome to the contact page  this page is a developer page express");
-})
-
-server.get("/fitness", (req, res) => {
+// (req, res) => req handler function 
+server.get("/fitness", (req, res, next) => {
     const fitnessInformation = {
         workouts: ["running", "cycling", "swimming"],
         nutrition: "balanced diet EXPRESS",
@@ -42,57 +29,13 @@ server.get("/fitness", (req, res) => {
     res.json(fitnessInformation);
 })
 
-
-// Give a support for users 
-// User Activity  -> 
-
-// 1. get all users 
-
-server.get("/api/v1/activity/user/getAlluser", (req, res) => {
-
-    const users = userData.data // [{}, {} , {} ... 10]
-    
-    const responseObject = {
-        users,
-        size: users.length
-    }
-
-    res.json(responseObject);
-
-})
-
-// 2. get all users by gender
-// way 1: query params -> anything after ? is part of query params 
-// https://www.google.com/search?q=virat 
-
-server.get("/api/v1/activity/user/getByGender", (req, res) => {
-
-    // req.query is only with Express and not nodejs 
-    // nodejs uses labour method where we have to do the hardwork url.split("?")
-    const queryParams = req.query;
-    const queriedGender = queryParams.gender; // from postman 
-
-    const users = userData.data // all 10 users
-    const filteredUsers = users.filter((user) => {
-        return user.gender === queriedGender
-    }) // [] -> 5, 3, 
-
-    const responseObject = {
-        users: filteredUsers,
-        size: filteredUsers.length,
-        gender: queriedGender
-    }
-
-    res.json(responseObject);
-
-})
-
-// 3. get user by first name
-// way2: url params
-// https://pokeapi.co/api/v2/pokemon/pikachu || https://pokeapi.co/api/v2/pokemon/ditto
+// use support all types of req -> GET, PUT, POST, DELETE, PATCH, HEAD .... 
+server.use("/api/v1/activity/user", UserActivityRouter)
 
 
 
 server.listen(PORT, () => {
     console.log(`EXPRESS Server running at http://localhost:${PORT}/ `);
 });
+
+// 8 endpoints 
