@@ -1,22 +1,11 @@
 const BlogModel = require("../Model/BlogsModel");
+const BlogService = require("../Services/BlogService");
 
 
 async function createBlog(req, res) {
-    const {title, content, author} = req.body;
-
-    // user model object 
-
-    const blogModelObject = BlogModel({
-        title,
-        content,
-        author
-    });
-
-
-    // talk to DB to save this boject 
 
     try {
-        const response = await blogModelObject.save()
+        const response = await BlogService.createBlog(req.body);
         res.status(201).json(response);
     } catch(Error) {
         res.status(500).json(Error);
@@ -44,7 +33,7 @@ async function getBlogById(req, res) {
     const id = params.id;
 
     try {
-        const allBlogs = await BlogModel.find({ _id: id });
+        const allBlogs = await BlogService.getBlogById(id);
         res.status(200).json(allBlogs);
     } catch(Error) {
         res.status(500).json(Error);

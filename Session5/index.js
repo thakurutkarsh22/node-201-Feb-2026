@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const UserActivityRouter = require("./Routes/UserActivityRoute");
 const HomeRouter = require("./Routes/HomeRoute");
 const BlogRouter = require("./Routes/BlogsRoute");
+const AuthRouter = require("./Routes/AuthRoute");
 const server = express();
 const PORT = process.env.PORT;
 
@@ -42,17 +43,23 @@ server.get("/fitness", (req, res, next) => {
 server.use("/api/v1/activity/user", UserActivityRouter)
 
 
+// BLogs -> create, deleteBlogsById, getAllBLogs, GetBlogsByID
+server.use("/api/v1/blogs", BlogRouter)
+
+// User  -> register 
+
+server.use("/api/v1/auth/user", AuthRouter);
+
+
+
+
+
+
 const DB_URI = "mongodb://localhost:27017/";
 const databaseName = "criofeb";
 mongoose.connect(DB_URI + databaseName).then(() => {
     console.log("DB CONNECTED TO MONGO DB")
 })
-
-
-// BLogs -> create, deleteBlogsById, getAllBLogs, GetBlogsByID
-server.use("/api/v1/blogs", BlogRouter)
-
-
 
 
 server.listen(PORT, () => {
