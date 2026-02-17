@@ -55,8 +55,8 @@ server.use("/api/v1/auth/user", AuthRouter);
 
 
 
-const DB_URI = "mongodb://localhost:27017/";
-const databaseName = "criofeb";
+const DB_URI = process.env.DB_CONNECTION;
+const databaseName = process.env.DB_NAME;
 mongoose.connect(DB_URI + databaseName).then(() => {
     console.log("DB CONNECTED TO MONGO DB")
 })

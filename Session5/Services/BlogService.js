@@ -30,6 +30,13 @@ class BlogService {
         }
     }
 
+
+
+    /**
+     * 
+     * @param {String} id 
+     * @returns {Array} blogs array
+     */
     static async getBlogById(id) {
         try {
             const allBlogs = await BlogModel.find({ _id: id });

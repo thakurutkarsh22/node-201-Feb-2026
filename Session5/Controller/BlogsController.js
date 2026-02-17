@@ -5,7 +5,9 @@ const BlogService = require("../Services/BlogService");
 async function createBlog(req, res) {
 
     try {
+        console.log("createBlog Controller",req)
         const response = await BlogService.createBlog(req.body);
+        console.log("createBlog Controller after response",response )
         res.status(201).json(response);
     } catch(Error) {
         res.status(500).json(Error);
