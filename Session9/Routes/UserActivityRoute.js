@@ -1,13 +1,14 @@
 const express = require("express");
 const { getAllUser, getUserByGender, getUserByName } = require("../Controller/UserActivityController");
 const PasswordAuthMiddleware = require("../Middleware/passwordAuthMiddleware");
+const { JwtAuthMiddleware } = require("../Middleware/jwtAuthMiddleware");
 const router = express.Router();
 
 
 
 // 1. get all users 
 
-router.get("/getAlluser", PasswordAuthMiddleware, getAllUser)
+router.get("/getAlluser", JwtAuthMiddleware, getAllUser)
 
 // 2. get all users by gender
 // way 1: query params -> anything after ? is part of query params 

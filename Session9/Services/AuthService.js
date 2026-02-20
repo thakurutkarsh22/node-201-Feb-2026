@@ -1,5 +1,7 @@
 const UserModel = require("../Model/UserModel");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const { JWT_SECRET } = require("../Middleware/jwtAuthMiddleware");
 
 class AuthService {
 
@@ -43,7 +45,18 @@ class AuthService {
 
                 const isPasswordMatch = await bcrypt.compare(plainTextPassword, encryptedPassword);
                 if(isPasswordMatch) {
-                    return user;
+
+                    const tokenPayload = {
+                        userId: user._id,
+                        email: user.email,
+                        name: user.name,
+                        age: user.age,
+                        contact: user.contact,
+                    }
+                    const token = jwt.sign(tokenPayload, JWT_SECRET, {expiresIn: "10000"});
+
+
+                    return {user, token};
                 } else {
                     throw new Error("Invalid credentials");
                 }
