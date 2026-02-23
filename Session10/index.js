@@ -5,8 +5,12 @@ const UserActivityRouter = require("./Routes/UserActivityRoute");
 const HomeRouter = require("./Routes/HomeRoute");
 const BlogRouter = require("./Routes/BlogsRoute");
 const AuthRouter = require("./Routes/AuthRoute");
+const passport = require("passport");
+const PassportConfig = require("./Config/Passport");
 const server = express();
 const PORT = process.env.PORT;
+
+PassportConfig(passport); // we are telling the application to use passport stratergy as well.
 
 
 // COMMON MIDDLEWARE 

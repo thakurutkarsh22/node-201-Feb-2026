@@ -2,6 +2,7 @@ const express = require("express");
 const { getAllUser, getUserByGender, getUserByName } = require("../Controller/UserActivityController");
 const PasswordAuthMiddleware = require("../Middleware/passwordAuthMiddleware");
 const { JwtAuthMiddleware } = require("../Middleware/jwtAuthMiddleware");
+const passport = require("passport");
 const router = express.Router();
 
 
@@ -20,7 +21,11 @@ router.get("/getByGender", PasswordAuthMiddleware, getUserByGender)
 // way2: url params
 // https://pokeapi.co/api/v2/pokemon/pikachu || https://pokeapi.co/api/v2/pokemon/ditto
 
-router.get("/getByFirstName/:firstName", getUserByName)
+
+// we will do the Passport auth here 
+const AuthPassportMiddleware = passport.authenticate("jwt", {session: false, failureRedirect: '/contact'},) 
+
+router.get("/getByFirstName/:firstName", AuthPassportMiddleware, getUserByName)
 
 
 
